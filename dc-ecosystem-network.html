@@ -84,87 +84,11 @@ svg#net .n-group{cursor:pointer}
   </div>
 </div>
 <script>
-var NT={
-  hyperscaler:{c:'#185FA5',lbl:'Hyperscaler'},
-  colo:{c:'#0F6E56',lbl:'Colo operator'},
-  developer:{c:'#534AB7',lbl:'DC developer'},
-  vendor:{c:'#854F0B',lbl:'OEM / vendor'},
-  gc:{c:'#5F5E5A',lbl:'Contractor'},
-  group:{c:'#888780',lbl:'Industry group'},
-  investor:{c:'#A32D2D',lbl:'Investor'}
-};
-var EC={
-  gc:{c:'#1D9E75',lbl:'GC / builder',w:2.5},
-  oem:{c:'#BA7517',lbl:'OEM partner',w:2},
-  tenant:{c:'#378ADD',lbl:'Tenant / customer',w:2},
-  wfd:{c:'#3B6D11',lbl:'WFD partnership',w:1.5},
-  group:{c:'#BBBBBB',lbl:'Industry consortium',w:1.2,dash:'4,3'},
-  investor:{c:'#D85A30',lbl:'Investment / ownership',w:2},
-  spec:{c:'#CCCCCC',lbl:'Speculative',w:1.2,dash:'5,4'}
-};
-var NODES=[
-  {id:'imasons',lbl:'iMasons',type:'group',x:108,y:55,r:13,sh:'iM'},
-  {id:'ocp',lbl:'OCP',type:'group',x:248,y:55,r:13,sh:'OCP'},
-  {id:'cndcp',lbl:'CNDCP',type:'group',x:398,y:55,r:13,sh:'CC'},
-  {id:'uptime',lbl:'Uptime Inst.',type:'group',x:545,y:55,r:13,sh:'UI'},
-  {id:'meta',lbl:'Meta',type:'hyperscaler',x:78,y:170,r:22,sh:'Meta'},
-  {id:'aws',lbl:'AWS',type:'hyperscaler',x:78,y:305,r:22,sh:'AWS'},
-  {id:'turner',lbl:'Turner',type:'gc',x:58,y:410,r:13},
-  {id:'dpr',lbl:'DPR',type:'gc',x:152,y:428,r:13,sh:'DPR'},
-  {id:'mortenson',lbl:'Mortenson',type:'gc',x:58,y:475,r:12},
-  {id:'jedunn',lbl:'JE Dunn',type:'gc',x:152,y:490,r:12},
-  {id:'cbre',lbl:'CBRE',type:'vendor',x:248,y:245,r:16,sh:'CBRE'},
-  {id:'vertiv',lbl:'Vertiv',type:'vendor',x:362,y:178,r:18,sh:'VRT'},
-  {id:'schneider',lbl:'Schneider',type:'vendor',x:362,y:322,r:16,sh:'SE'},
-  {id:'cisco',lbl:'Cisco',type:'vendor',x:362,y:445,r:15,sh:'CSCO'},
-  {id:'equinix',lbl:'Equinix',type:'colo',x:512,y:148,r:22,sh:'EQIX'},
-  {id:'qts',lbl:'QTS',type:'colo',x:600,y:218,r:18,sh:'QTS'},
-  {id:'coresite',lbl:'CoreSite',type:'colo',x:580,y:320,r:16,sh:'CSite'},
-  {id:'databank',lbl:'DataBank',type:'colo',x:508,y:305,r:14,sh:'DBnk'},
-  {id:'ntt',lbl:'NTT',type:'colo',x:595,y:408,r:16,sh:'NTT'},
-  {id:'cologix',lbl:'Cologix',type:'colo',x:512,y:400,r:14,sh:'CLG'},
-  {id:'stack',lbl:'STACK',type:'developer',x:540,y:488,r:14,sh:'STK'},
-  {id:'compass',lbl:'Compass',type:'developer',x:610,y:480,r:13,sh:'CMP'},
-  {id:'t5',lbl:'T5',type:'developer',x:468,y:505,r:12,sh:'T5'},
-  {id:'stonepeak',lbl:'Stonepeak',type:'investor',x:432,y:530,r:13}
-];
-var EDGES=[
-  {s:'meta',t:'turner',type:'gc',note:"Turner confirmed GC on Meta's Texas, Indiana, Louisiana, Wyoming projects (Construction Dive 2023-2026)"},
-  {s:'meta',t:'dpr',type:'gc',note:"DPR confirmed GC on Meta's Arizona ($1B) and Louisiana Richland Parish ($10B) projects"},
-  {s:'meta',t:'mortenson',type:'gc',note:"Mortenson confirmed on Meta Louisiana JV (with DPR + Turner) and Indiana campus"},
-  {s:'meta',t:'jedunn',type:'gc',note:"JE Dunn confirmed GC on Meta $800M Temple TX data center project"},
-  {s:'meta',t:'cbre',type:'wfd',note:"CBRE confirmed co-founder of Meta's America's Workforce Academy (AWA) - $115M program, launched June 2026"},
-  {s:'meta',t:'ocp',type:'group',note:"Meta co-founded the Open Compute Project in 2011 - open-source DC hardware designs shared industry-wide"},
-  {s:'aws',t:'qts',type:'tenant',note:"AWS deployed network infra in QTS mega DCs in Chicago, Atlanta, Piscataway - long-term colo agreement (2022)"},
-  {s:'aws',t:'coresite',type:'tenant',note:"AWS Native 400G Direct Connect on CoreSite Chicago campus - confirmed January 2026"},
-  {s:'aws',t:'stack',type:'tenant',note:"AWS confirmed anchor tenant at STACK Louisiana campus - Amazon press release February 2026"},
-  {s:'aws',t:'equinix',type:'tenant',note:"AWS publicly confirmed as major Equinix customer in Equinix 10-K and partner pages"},
-  {s:'aws',t:'cndcp',type:'group',note:"AWS founding member of Climate Neutral Data Centre Pact - carbon-neutral European DCs by 2030 (January 2021)"},
-  {s:'coresite',t:'dpr',type:'gc',note:"DPR confirmed GC for CoreSite NY3 Secaucus campus expansion - DPR project page (January 2026)"},
-  {s:'equinix',t:'vertiv',type:'oem',note:"E2P2 fuel cell consortium: Equinix + Vertiv + InfraPrime + Snam + SOLIDpower - EU Clean Hydrogen Partnership (2024)"},
-  {s:'equinix',t:'cisco',type:'oem',note:"Cisco co-founder of Equinix global workforce coalition - Brazil pilot June 2026, global expansion planned"},
-  {s:'equinix',t:'imasons',type:'group',note:"Equinix confirmed iMasons partner - imasons.org partners page"},
-  {s:'equinix',t:'cndcp',type:'group',note:"Equinix founding signatory of Climate Neutral Data Centre Pact - newsroom.equinix.com (January 21, 2021)"},
-  {s:'equinix',t:'uptime',type:'group',note:"Multiple Equinix IBX sites hold Uptime Institute TIER certifications - uptimeinstitute.com awards page"},
-  {s:'equinix',t:'cbre',type:'spec',note:"SPECULATIVE: CBRE reported as FM partner in select Equinix outsourced markets - not confirmed in primary sources"},
-  {s:'vertiv',t:'imasons',type:'group',note:"Vertiv confirmed iMasons partner - imasons.org partners page"},
-  {s:'vertiv',t:'uptime',type:'group',note:"Vertiv-Uptime Institute TIER-Ready partnership for prefabricated modular DCs (2020)"},
-  {s:'schneider',t:'imasons',type:'group',note:"Schneider Electric confirmed iMasons partner - iMasons press release"},
-  {s:'coresite',t:'imasons',type:'group',note:"CoreSite confirmed iMasons partner - imasons.org partners page"},
-  {s:'compass',t:'vertiv',type:'oem',note:"Vertiv confirmed Compass OEM partner - Wikipedia: Compass Datacenters named partner list"},
-  {s:'compass',t:'schneider',type:'oem',note:"Schneider Electric confirmed Compass OEM partner - Wikipedia: Compass Datacenters named partner list"},
-  {s:'ntt',t:'cndcp',type:'group',note:"NTT confirmed founding member of Climate Neutral Data Centre Pact (January 2021 member list)"},
-  {s:'stonepeak',t:'cologix',type:'investor',note:"Stonepeak Infrastructure Partners owns Cologix"},
-  {s:'stonepeak',t:'coresite',type:'investor',note:"Stonepeak holds 29% equity stake in CoreSite DevCo - DCD (May 2026)"}
-];
-var META_BRIEF=[
-  {t:'DPR bridges Meta and CoreSite',b:"DPR built for Meta (AZ, LA) AND CoreSite (NY3 Secaucus). Confirmed shared contractor relationship worth naming."},
-  {t:"AWS uses Meta's competitors' infrastructure",b:"AWS is a confirmed tenant at QTS, CoreSite, STACK, and Equinix. Even rivals share the physical layer."},
-  {t:'CBRE connects both ecosystems',b:"CBRE co-founded Meta's AWA ($115M) and is a speculative Equinix FM partner. A shared touchpoint."},
-  {t:'Vertiv is the connective tissue',b:"Confirmed OEM for Compass, consortium partner with Equinix, iMasons + Uptime Institute member. Sits at the center."},
-  {t:'Meta is absent from key industry bodies',b:"Not in iMasons, CNDCP, or Uptime. Hyperscalers build their own and engage differently than colo operators."},
-  {t:'CNDCP ties Equinix, AWS, and NTT',b:"Three largest DC players share a climate commitment. Cross-company WFD for decarbonization is a wedge."}
-];
+var NT={hyperscaler:{c:'#185FA5',lbl:'Hyperscaler'},colo:{c:'#0F6E56',lbl:'Colo operator'},developer:{c:'#534AB7',lbl:'DC developer'},vendor:{c:'#854F0B',lbl:'OEM / vendor'},gc:{c:'#5F5E5A',lbl:'Contractor'},group:{c:'#888780',lbl:'Industry group'},investor:{c:'#A32D2D',lbl:'Investor'}};
+var EC={gc:{c:'#1D9E75',lbl:'GC / builder',w:2.5},oem:{c:'#BA7517',lbl:'OEM partner',w:2},tenant:{c:'#378ADD',lbl:'Tenant / customer',w:2},wfd:{c:'#3B6D11',lbl:'WFD partnership',w:1.5},group:{c:'#BBBBBB',lbl:'Industry consortium',w:1.2,dash:'4,3'},investor:{c:'#D85A30',lbl:'Investment / ownership',w:2},spec:{c:'#CCCCCC',lbl:'Speculative',w:1.2,dash:'5,4'}};
+var NODES=[{id:'imasons',lbl:'iMasons',type:'group',x:108,y:55,r:13,sh:'iM'},{id:'ocp',lbl:'OCP',type:'group',x:248,y:55,r:13,sh:'OCP'},{id:'cndcp',lbl:'CNDCP',type:'group',x:398,y:55,r:13,sh:'CC'},{id:'uptime',lbl:'Uptime Inst.',type:'group',x:545,y:55,r:13,sh:'UI'},{id:'meta',lbl:'Meta',type:'hyperscaler',x:78,y:170,r:22,sh:'Meta'},{id:'aws',lbl:'AWS',type:'hyperscaler',x:78,y:305,r:22,sh:'AWS'},{id:'turner',lbl:'Turner',type:'gc',x:58,y:410,r:13},{id:'dpr',lbl:'DPR',type:'gc',x:152,y:428,r:13,sh:'DPR'},{id:'mortenson',lbl:'Mortenson',type:'gc',x:58,y:475,r:12},{id:'jedunn',lbl:'JE Dunn',type:'gc',x:152,y:490,r:12},{id:'cbre',lbl:'CBRE',type:'vendor',x:248,y:245,r:16,sh:'CBRE'},{id:'vertiv',lbl:'Vertiv',type:'vendor',x:362,y:178,r:18,sh:'VRT'},{id:'schneider',lbl:'Schneider',type:'vendor',x:362,y:322,r:16,sh:'SE'},{id:'cisco',lbl:'Cisco',type:'vendor',x:362,y:445,r:15,sh:'CSCO'},{id:'equinix',lbl:'Equinix',type:'colo',x:512,y:148,r:22,sh:'EQIX'},{id:'qts',lbl:'QTS',type:'colo',x:600,y:218,r:18,sh:'QTS'},{id:'coresite',lbl:'CoreSite',type:'colo',x:580,y:320,r:16,sh:'CSite'},{id:'databank',lbl:'DataBank',type:'colo',x:508,y:305,r:14,sh:'DBnk'},{id:'ntt',lbl:'NTT',type:'colo',x:595,y:408,r:16,sh:'NTT'},{id:'cologix',lbl:'Cologix',type:'colo',x:512,y:400,r:14,sh:'CLG'},{id:'stack',lbl:'STACK',type:'developer',x:540,y:488,r:14,sh:'STK'},{id:'compass',lbl:'Compass',type:'developer',x:610,y:480,r:13,sh:'CMP'},{id:'t5',lbl:'T5',type:'developer',x:468,y:505,r:12,sh:'T5'},{id:'stonepeak',lbl:'Stonepeak',type:'investor',x:432,y:530,r:13}];
+var EDGES=[{s:'meta',t:'turner',type:'gc',note:"Turner confirmed GC on Meta's Texas, Indiana, Louisiana, Wyoming projects (Construction Dive 2023-2026)"},{s:'meta',t:'dpr',type:'gc',note:"DPR confirmed GC on Meta's Arizona ($1B) and Louisiana Richland Parish ($10B) projects"},{s:'meta',t:'mortenson',type:'gc',note:"Mortenson confirmed on Meta Louisiana JV (with DPR + Turner) and Indiana campus"},{s:'meta',t:'jedunn',type:'gc',note:"JE Dunn confirmed GC on Meta $800M Temple TX data center project"},{s:'meta',t:'cbre',type:'wfd',note:"CBRE confirmed co-founder of Meta's America's Workforce Academy (AWA) - $115M program, launched June 2026"},{s:'meta',t:'ocp',type:'group',note:"Meta co-founded the Open Compute Project in 2011 - open-source DC hardware designs shared industry-wide"},{s:'aws',t:'qts',type:'tenant',note:"AWS deployed network infra in QTS mega DCs in Chicago, Atlanta, Piscataway - long-term colo agreement (2022)"},{s:'aws',t:'coresite',type:'tenant',note:"AWS Native 400G Direct Connect on CoreSite Chicago campus - confirmed January 2026"},{s:'aws',t:'stack',type:'tenant',note:"AWS confirmed anchor tenant at STACK Louisiana campus - Amazon press release February 2026"},{s:'aws',t:'equinix',type:'tenant',note:"AWS publicly confirmed as major Equinix customer in Equinix 10-K and partner pages"},{s:'aws',t:'cndcp',type:'group',note:"AWS founding member of Climate Neutral Data Centre Pact - carbon-neutral European DCs by 2030 (January 2021)"},{s:'coresite',t:'dpr',type:'gc',note:"DPR confirmed GC for CoreSite NY3 Secaucus campus expansion - DPR project page (January 2026)"},{s:'equinix',t:'vertiv',type:'oem',note:"E2P2 fuel cell consortium: Equinix + Vertiv + InfraPrime + Snam + SOLIDpower - EU Clean Hydrogen Partnership (2024)"},{s:'equinix',t:'cisco',type:'oem',note:"Cisco co-founder of Equinix global workforce coalition - Brazil pilot June 2026, global expansion planned"},{s:'equinix',t:'imasons',type:'group',note:"Equinix confirmed iMasons partner - imasons.org partners page"},{s:'equinix',t:'cndcp',type:'group',note:"Equinix founding signatory of Climate Neutral Data Centre Pact - newsroom.equinix.com (January 21, 2021)"},{s:'equinix',t:'uptime',type:'group',note:"Multiple Equinix IBX sites hold Uptime Institute TIER certifications - uptimeinstitute.com awards page"},{s:'equinix',t:'cbre',type:'spec',note:"SPECULATIVE: CBRE reported as FM partner in select Equinix outsourced markets - not confirmed in primary sources"},{s:'vertiv',t:'imasons',type:'group',note:"Vertiv confirmed iMasons partner - imasons.org partners page"},{s:'vertiv',t:'uptime',type:'group',note:"Vertiv-Uptime Institute TIER-Ready partnership for prefabricated modular DCs (2020)"},{s:'schneider',t:'imasons',type:'group',note:"Schneider Electric confirmed iMasons partner - iMasons press release"},{s:'coresite',t:'imasons',type:'group',note:"CoreSite confirmed iMasons partner - imasons.org partners page"},{s:'compass',t:'vertiv',type:'oem',note:"Vertiv confirmed Compass OEM partner - Wikipedia: Compass Datacenters named partner list"},{s:'compass',t:'schneider',type:'oem',note:"Schneider Electric confirmed Compass OEM partner - Wikipedia: Compass Datacenters named partner list"},{s:'ntt',t:'cndcp',type:'group',note:"NTT confirmed founding member of Climate Neutral Data Centre Pact (January 2021 member list)"},{s:'stonepeak',t:'cologix',type:'investor',note:"Stonepeak Infrastructure Partners owns Cologix"},{s:'stonepeak',t:'coresite',type:'investor',note:"Stonepeak holds 29% equity stake in CoreSite DevCo - DCD (May 2026)"}];
+var META_BRIEF=[{t:'DPR bridges Meta and CoreSite',b:"DPR built for Meta (AZ, LA) AND CoreSite (NY3 Secaucus). Confirmed shared contractor relationship worth naming."},{t:"AWS uses Meta's competitors' infrastructure",b:"AWS is a confirmed tenant at QTS, CoreSite, STACK, and Equinix. Even rivals share the physical layer."},{t:'CBRE connects both ecosystems',b:"CBRE co-founded Meta's AWA ($115M) and is a speculative Equinix FM partner. A shared touchpoint."},{t:'Vertiv is the connective tissue',b:"Confirmed OEM for Compass, consortium partner with Equinix, iMasons + Uptime Institute member. Sits at the center."},{t:'Meta is absent from key industry bodies',b:"Not in iMasons, CNDCP, or Uptime. Hyperscalers build their own and engage differently than colo operators."},{t:'CNDCP ties Equinix, AWS, and NTT',b:"Three largest DC players share a climate commitment. Cross-company WFD for decarbonization is a wedge."}];
 
 var nmap={};
 NODES.forEach(function(n){nmap[n.id]=n;});
@@ -186,12 +110,7 @@ function drawEdges(){
     var off=Math.min(len*0.14,22);
     var cpx=mx+(-dy/len)*off,cpy=my+(dx/len)*off;
     var et=EC[e.type];
-    var path=svgEl('path',{
-      'd':'M'+s.x+','+s.y+' Q'+cpx+','+cpy+' '+t.x+','+t.y,
-      'fill':'none','stroke':et.c,'stroke-width':et.w,
-      'stroke-dasharray':et.dash||'','opacity':'0.3',
-      'id':'edge-'+i,'data-src':e.s,'data-tgt':e.t
-    });
+    var path=svgEl('path',{'d':'M'+s.x+','+s.y+' Q'+cpx+','+cpy+' '+t.x+','+t.y,'fill':'none','stroke':et.c,'stroke-width':et.w,'stroke-dasharray':et.dash||'','opacity':'0.3','id':'edge-'+i,'data-src':e.s,'data-tgt':e.t});
     svg.appendChild(path);
   });
 }
@@ -200,38 +119,18 @@ function drawNodes(){
   NODES.forEach(function(node){
     var g=svgEl('g',{'id':'node-'+node.id,'class':'n-group'});
     var hit=svgEl('circle',{cx:node.x,cy:node.y,r:node.r+7,fill:'transparent'});
-    var c=svgEl('circle',{cx:node.x,cy:node.y,r:node.r,
-      fill:NT[node.type].c,stroke:'#fff','stroke-width':'1.5',
-      'id':'circ-'+node.id});
-    g.appendChild(hit);
-    g.appendChild(c);
+    var c=svgEl('circle',{cx:node.x,cy:node.y,r:node.r,fill:NT[node.type].c,stroke:'#fff','stroke-width':'1.5','id':'circ-'+node.id});
+    g.appendChild(hit); g.appendChild(c);
     if(node.sh&&node.r>=12){
-      var t=svgEl('text',{
-        x:node.x,y:node.y,'text-anchor':'middle',
-        'dominant-baseline':'central',fill:'#fff',
-        'font-size':node.r>18?10:node.r>13?9:8,
-        'font-weight':'600','font-family':'inherit',
-        'pointer-events':'none'
-      });
-      t.textContent=node.sh.substring(0,node.r>18?4:3);
-      g.appendChild(t);
+      var t=svgEl('text',{x:node.x,y:node.y,'text-anchor':'middle','dominant-baseline':'central',fill:'#fff','font-size':node.r>18?10:node.r>13?9:8,'font-weight':'600','font-family':'inherit','pointer-events':'none'});
+      t.textContent=node.sh.substring(0,node.r>18?4:3); g.appendChild(t);
     }
-    var words=node.lbl.split(' ');
-    var lblY=node.y+node.r+13;
+    var words=node.lbl.split(' '); var lblY=node.y+node.r+13;
     words.forEach(function(w,wi){
-      var lt=svgEl('text',{
-        x:node.x,y:lblY+wi*11,'text-anchor':'middle',
-        'dominant-baseline':'hanging',fill:'#333',
-        'font-size':'9.5','font-family':'inherit',
-        'pointer-events':'none','id':'lbl-'+node.id+'-'+wi
-      });
-      lt.textContent=w;
-      g.appendChild(lt);
+      var lt=svgEl('text',{x:node.x,y:lblY+wi*11,'text-anchor':'middle','dominant-baseline':'hanging',fill:'#333','font-size':'9.5','font-family':'inherit','pointer-events':'none','id':'lbl-'+node.id+'-'+wi});
+      lt.textContent=w; g.appendChild(lt);
     });
-    g.addEventListener('click',function(e){
-      e.stopPropagation();
-      setSelected(node.id===selected?null:node.id);
-    });
+    g.addEventListener('click',function(e){e.stopPropagation(); setSelected(node.id===selected?null:node.id);});
     svg.appendChild(g);
   });
 }
@@ -240,25 +139,18 @@ function render(){
   var connSet={},connEdge={};
   if(selected){
     connSet[selected]=true;
-    EDGES.forEach(function(e,i){
-      if(e.s===selected||e.t===selected){
-        connSet[e.s]=true;connSet[e.t]=true;connEdge[i]=true;
-      }
-    });
+    EDGES.forEach(function(e,i){if(e.s===selected||e.t===selected){connSet[e.s]=true;connSet[e.t]=true;connEdge[i]=true;}});
   }
   EDGES.forEach(function(e,i){
-    var el=document.getElementById('edge-'+i);
-    if(!el)return;
+    var el=document.getElementById('edge-'+i); if(!el)return;
     var active=!selected||connEdge[i];
     el.setAttribute('opacity',active?(selected?'0.88':'0.28'):'0.04');
     el.setAttribute('stroke-width',active&&selected?(EC[e.type].w+0.8):EC[e.type].w);
   });
   NODES.forEach(function(node){
-    var g=document.getElementById('node-'+node.id);
-    var c=document.getElementById('circ-'+node.id);
+    var g=document.getElementById('node-'+node.id), c=document.getElementById('circ-'+node.id);
     if(!g||!c)return;
-    var isS=node.id===selected;
-    var isC=!selected||connSet[node.id];
+    var isS=node.id===selected, isC=!selected||connSet[node.id];
     g.setAttribute('opacity',isC?'1':'0.1');
     c.setAttribute('r',isS?node.r*1.32:node.r);
     c.setAttribute('stroke',isS?'#0D2137':'#fff');
@@ -269,45 +161,33 @@ function render(){
 
 function renderDetail(connSet,connEdge){
   var di=document.getElementById('detail-inner');
-  if(!selected){
-    di.innerHTML='<div id="no-sel">Click any node to see its confirmed connections and source citations</div>';
-    return;
-  }
-  var node=nmap[selected];
-  var selEdges=EDGES.filter(function(e){return e.s===selected||e.t===selected;});
-  var html='<div id="detail-name">'+node.lbl+'</div>';
-  html+='<div id="detail-type">'+NT[node.type].lbl+'</div>';
-  html+='<div id="detail-count">'+selEdges.length+' confirmed connection'+(selEdges.length!==1?'s':'')+'</div>';
+  if(!selected){ di.innerHTML='<div id="no-sel">Click any node to see its confirmed connections and source citations</div>'; return; }
+  var node=nmap[selected], selEdges=EDGES.filter(function(e){return e.s===selected||e.t===selected;});
+  var html='<div id="detail-name">'+node.lbl+'</div><div id="detail-type">'+NT[node.type].lbl+'</div><div id="detail-count">'+selEdges.length+' confirmed connection'+(selEdges.length!==1?'s':'')+'</div>';
   selEdges.forEach(function(e){
-    var oid=e.s===selected?e.t:e.s;
-    var on=nmap[oid];
-    var et=EC[e.type];
-    html+='<div class="conn-card" style="border-left-color:'+et.c+'">';
-    html+='<div class="conn-name"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+NT[on.type].c+';margin-right:5px;vertical-align:middle"></span>'+on.lbl+'</div>';
-    html+='<div class="conn-type" style="color:'+et.c+'">'+et.lbl+'</div>';
-    html+='<div class="conn-note">'+e.note+'</div>';
-    html+='</div>';
+    var oid=e.s===selected?e.t:e.s, on=nmap[oid], et=EC[e.type];
+    html+='<div class="conn-card" style="border-left-color:'+et.c+'"><div class="conn-name"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+NT[on.type].c+';margin-right:5px;vertical-align:middle"></span>'+on.lbl+'</div><div class="conn-type" style="color:'+et.c+'">'+et.lbl+'</div><div class="conn-note">'+e.note+'</div></div>';
   });
   if(selected==='meta'){
     html+='<div id="meta-brief"><h3>CEO briefing: Meta conversation</h3>';
-    META_BRIEF.forEach(function(pt){
-      html+='<div class="brief-item"><div class="brief-title">'+pt.t+'</div><div class="brief-body">'+pt.b+'</div></div>';
-    });
+    META_BRIEF.forEach(function(pt){html+='<div class="brief-item"><div class="brief-title">'+pt.t+'</div><div class="brief-body">'+pt.b+'</div></div>';});
     html+='</div>';
   }
   di.innerHTML=html;
 }
 
 function setSelected(id){
-  selected=id;
-  render();
+  selected=id; render();
   document.getElementById('ctrl-label').textContent=id?('Showing connections for: '+nmap[id].lbl):'Click a node to see its connections';
 }
 
-svg.addEventListener('click',function(){setSelected(null);});
-drawEdges();
-drawNodes();
-setSelected('meta');
+// Ensure the page is fully loaded before rendering the graph
+document.addEventListener('DOMContentLoaded', function() {
+    svg.addEventListener('click',function(){setSelected(null);});
+    drawEdges();
+    drawNodes();
+    setSelected('meta');
+});
 </script>
 </body>
 </html>
